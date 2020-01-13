@@ -7,12 +7,32 @@ import { Product } from './product.model';
   providedIn: 'root'
 })
 export class ProductsService {
-
+  
   readonly url: string = "http://localhost:9000";
 
   constructor(private http: HttpClient) { }
 
   getProducts(): Observable<Product[]>{
     return this.http.get<Product[]>(`${this.url}/products`);
+  }
+
+  getProductsError(): Observable<Product[]> {
+    return this.http.get<Product[]>(`${this.url}/productserr`);
+  }
+
+  getProductsDelay(): Observable<Product[]> {
+    return this.http.get<Product[]>(`${this.url}/productsdelay`);
+  }
+
+  getProductsIds(): Observable<string[]>{
+    return this.http.get<string[]>(`${this.url}/products_id`);
+  }
+
+  getProduName(id: string): Observable<string>{
+    return this.http.get(`${this.url}/products/name/${id}`, {responseType: "text"}); //quando não retorna objeto coloca o reponseType e tira o get<string>
+  }
+
+  saveProduct(p: Product): Observable<Product>{
+    return this.http.post<Product>(`${this.url}/products`, p);
   }
 }
